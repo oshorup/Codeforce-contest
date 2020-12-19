@@ -1,0 +1,9 @@
+/**
+ * 
+ */
+/**
+ * @author OSHO
+ *
+ */
+module Codeforces {
+}
