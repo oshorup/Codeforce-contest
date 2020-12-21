@@ -2,7 +2,6 @@ package Contest_692_Div_2;
 
 import java.util.HashMap;
 import java.util.Scanner;
-
 public class Poman_Numbers {
 
 	public static void main(String[] args) {
@@ -26,12 +25,15 @@ public class Poman_Numbers {
 				System.out.println("NO");
 		} else {
 			boolean isPossible = false;
-			HashMap<String, Integer>dp = new HashMap<>();
+			HashMap<String, Integer> dp = new HashMap<>();
 			for (int m = 1; m < S.length(); m++) {
 				String first = S.substring(0, m);
 				String second = S.substring(m);
 				
-				int temp = -helper(first,dp) + helper(second,dp);
+				int ans1 = -helper_iterative(first,dp);
+				int ans2 = helper_iterative(second,dp);
+				
+				int temp =  ans1+ans2;
 				//dp.clear();
 				if (temp == T) {
 					isPossible = true;
@@ -40,31 +42,29 @@ public class Poman_Numbers {
 				}
 
 			}
-			if (!isPossible)
+			if (!isPossible) {
 				System.out.println("NO");
+			}		
 		}
-
 	}
-
-	private static int helper(String str, HashMap<String,Integer>dp) {
-
-		if (str.length() <= 1) {
-			int pos = str.charAt(0) - 'a';
-			int value = (int) Math.pow(2, pos);
-			return value;
-		}
-		
+	private static int helper_iterative(String str, HashMap<String,Integer> dp) {
 		if(dp.containsKey(str))return dp.get(str);
-
-		char c = str.charAt(0);
-		String rem = str.substring(1);
-
-		int pos = c - 'a';
-		int value = (int) Math.pow(2, pos);
-
-		int ans = -value + helper(rem,dp);
-		dp.put(str,ans);
+		int ans = 0;
+		for(int i=str.length()-1;i>=0;i--) {
+			
+			char c = str.charAt(i);
+			String subStr = str.substring(i,str.length());
+			
+			int pos = c-'a';
+			int value = (int)Math.pow(2, pos);
+			
+			if(i==str.length()-1) {
+				ans+=value;
+			}else {
+				ans-=value;
+			}
+			dp.put(subStr, ans);
+		}
 		return ans;
 	}
-
 }
